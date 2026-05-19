@@ -1,0 +1,66 @@
+/* Silk & Shears design tokens */
+:root {
+  --bg: #f5eee5;
+  --bg-soft: #fffaf5;
+  --bg-deep: #eadfce;
+  --surface: #fffdf9;
+  --surface-2: #f8efe5;
+  --ink: #261914;
+  --ink-2: #5b3f32;
+  --muted: #7e6b5c;
+  --muted-2: #aa9786;
+  --line: #e4d6c5;
+  --line-2: #cdbca8;
+  --accent: #bd6546;
+  --accent-deep: #8d3f2d;
+  --accent-soft: #e5a684;
+  --peach: #ead0b8;
+  --blush: #f0d0c9;
+  --sand: #d5c1a8;
+  --gold: #a98342;
+  --sage: #677760;
+  --success: #5a7a4e;
+  --danger: #b35a4e;
+  --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --r-xs: 4px;
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 22px;
+  --r-xl: 32px;
+  --r-pill: 999px;
+  --r-full: 999px;
+  --section-pad: clamp(72px, 8vw, 120px) clamp(20px, 5vw, 64px);
+  --shadow-xs: 0 1px 2px rgba(74, 44, 30, 0.06);
+  --shadow-sm: 0 2px 8px rgba(74, 44, 30, 0.06), 0 1px 2px rgba(74, 44, 30, 0.04);
+  --shadow-md: 0 10px 30px rgba(74, 44, 30, 0.08), 0 4px 12px rgba(74, 44, 30, 0.05);
+  --shadow-lg: 0 24px 60px rgba(74, 44, 30, 0.12), 0 8px 24px rgba(74, 44, 30, 0.06);
+  --shadow-glow: 0 20px 60px rgba(189, 101, 70, 0.24);
+}
+
+[data-theme="dark"] {
+  --bg: #14100d;
+  --bg-soft: #1c1610;
+  --bg-deep: #0e0a07;
+  --surface: #221913;
+  --surface-2: #2a1f17;
+  --ink: #f3ede4;
+  --ink-2: #e9c9a6;
+  --muted: #a89580;
+  --muted-2: #7a6857;
+  --line: #3a2c22;
+  --line-2: #4a3a2e;
+  --accent: #d89070;
+  --accent-deep: #b87055;
+  --accent-soft: #6b4538;
+  --peach: #6b4a38;
+  --blush: #5a3a30;
+  --sand: #6e5a44;
+  --gold: #c9a560;
+  --sage: #8a9a78;
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 20px 60px rgba(216, 144, 112, 0.2);
+}
