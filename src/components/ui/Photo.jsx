@@ -8,6 +8,9 @@ const palettes = [
 ];
 
 export default function Photo({
+  image,
+  src,
+  alt = '',
   kind = 'editorial',
   seed,
   variant,
@@ -15,6 +18,8 @@ export default function Photo({
   height,
   radius,
   rounded,
+  objectPosition = 'center',
+  loading = 'lazy',
   style = {},
   className = '',
   children,
@@ -23,6 +28,8 @@ export default function Photo({
   const p = palettes[selectedSeed % palettes.length];
   const gradId = `photo-${kind}-${selectedSeed}`;
   const resolvedKind = kind === 'portrait' || selectedSeed % 3 === 0 ? 'portrait' : kind;
+  const resolvedSrc = image?.src ?? src;
+  const resolvedAlt = image?.alt ?? alt;
 
   return (
     <div
@@ -41,7 +48,23 @@ export default function Photo({
         ...style,
       }}
     >
-      {resolvedKind === 'portrait' && (
+      {resolvedSrc && (
+        <img
+          src={resolvedSrc}
+          alt={resolvedAlt}
+          loading={loading}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition,
+          }}
+        />
+      )}
+
+      {!resolvedSrc && resolvedKind === 'portrait' && (
         <svg
           aria-hidden="true"
           width="100%"
@@ -69,7 +92,7 @@ export default function Photo({
         </svg>
       )}
 
-      {resolvedKind !== 'portrait' && (
+      {!resolvedSrc && resolvedKind !== 'portrait' && (
         <svg
           aria-hidden="true"
           width="100%"

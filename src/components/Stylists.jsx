@@ -2,6 +2,7 @@ import Photo from './ui/Photo.jsx';
 import Avatar from './ui/Avatar.jsx';
 import Stars from './ui/Stars.jsx';
 import Icon from './ui/Icon.jsx';
+import { salonImages } from '../data/images.js';
 
 const stylists = [
   {
@@ -38,8 +39,16 @@ const stylists = [
   },
 ];
 
+const portfolioImages = [
+  [salonImages.heroHaircut, salonImages.hairBrushDetail],
+  [salonImages.stylistBlowdry, salonImages.salonInterior],
+  [salonImages.stylistPortrait, salonImages.hairBrushDetail],
+  [salonImages.barberGrooming, salonImages.salonInterior],
+];
+
 function StylistCard({ stylist, idx }) {
   const initials = stylist.name.split(' ').map((n) => n[0]).join('');
+  const photos = portfolioImages[idx % portfolioImages.length];
 
   return (
     <div
@@ -62,8 +71,8 @@ function StylistCard({ stylist, idx }) {
     >
       {/* Portfolio photo strip */}
       <div style={{ display: 'flex', gap: 4, padding: '12px 12px 0' }}>
-        <Photo kind="portrait" variant={(idx * 2) % 6} height={120} radius="var(--r-sm)" style={{ flex: 2 }} />
-        <Photo kind="editorial" variant={(idx * 2 + 1) % 6} height={120} radius="var(--r-sm)" style={{ flex: 1 }} />
+        <Photo image={photos[0]} kind="portrait" height={120} radius="var(--r-sm)" objectPosition="center 36%" style={{ flex: 2 }} />
+        <Photo image={photos[1]} kind="editorial" alt="" height={120} radius="var(--r-sm)" objectPosition="center" style={{ flex: 1 }} />
       </div>
 
       {/* Card body */}

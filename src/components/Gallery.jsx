@@ -1,12 +1,44 @@
-import Photo from './ui/Photo.jsx';
+import { useState } from 'react';
+import Icon from './ui/Icon.jsx';
+import { salonImages } from '../data/images.js';
 
 const transformations = [
-  { label: 'Balayage Transformation', before: 2, after: 1 },
-  { label: 'Signature Precision Cut', before: 5, after: 0 },
-  { label: 'Keratin Smoothing Ritual', before: 3, after: 4 },
+  {
+    label: 'Balayage Transformation',
+    comparison: salonImages.balayageComparison,
+    objectPosition: 'center 26%',
+  },
+  {
+    label: 'Signature Precision Cut',
+    before: salonImages.precisionCutBefore,
+    after: salonImages.precisionCutAfter,
+    start: 52,
+  },
+  {
+    label: 'Keratin Smoothing Ritual',
+    before: salonImages.keratinBefore,
+    after: salonImages.keratinAfter,
+    start: 50,
+  },
 ];
 
 function BeforeAfterCard({ item }) {
+  const [position, setPosition] = useState(item.start ?? 50);
+  const updatePosition = (event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const next = ((event.clientX - rect.left) / rect.width) * 100;
+    setPosition(Math.min(92, Math.max(8, next)));
+  };
+  const updateWithKeyboard = (event) => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    setPosition((current) => {
+      if (event.key === 'Home') return 8;
+      if (event.key === 'End') return 92;
+      return Math.min(92, Math.max(8, current + (event.key === 'ArrowRight' ? 4 : -4)));
+    });
+  };
+
   return (
     <div
       style={{
@@ -17,11 +49,67 @@ function BeforeAfterCard({ item }) {
         border: '1px solid var(--peach)',
       }}
     >
-      {/* Two-panel slider */}
-      <div style={{ position: 'relative', display: 'flex', height: 280 }}>
-        {/* Before */}
-        <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
-          <Photo kind="portrait" variant={item.before} height={280} radius={0} style={{ width: '100%' }} />
+      {item.comparison ? (
+        <div style={{ position: 'relative', height: 300, overflow: 'hidden' }}>
+          <img
+            src={item.comparison.src}
+            alt={item.comparison.alt}
+            loading="eager"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: item.objectPosition ?? 'center',
+            }}
+          />
+        </div>
+      ) : (
+        <div
+          role="slider"
+          tabIndex={0}
+          aria-label={`${item.label} before and after comparison`}
+          aria-valuemin={8}
+          aria-valuemax={92}
+          aria-valuenow={Math.round(position)}
+          onPointerDown={(event) => {
+            updatePosition(event);
+            event.currentTarget.setPointerCapture(event.pointerId);
+          }}
+          onPointerMove={(event) => {
+            if (event.buttons !== 1) return;
+            updatePosition(event);
+          }}
+          onKeyDown={updateWithKeyboard}
+          style={{
+            position: 'relative',
+            height: 300,
+            overflow: 'hidden',
+            cursor: 'ew-resize',
+            touchAction: 'none',
+            outline: 'none',
+          }}
+        >
+          <img
+            src={item.before.src}
+            alt={item.before.alt}
+            loading="eager"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+          <img
+            src={item.after.src}
+            alt={item.after.alt}
+            loading="eager"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              clipPath: `inset(0 ${100 - position}% 0 0)`,
+            }}
+          />
           <span
             style={{
               position: 'absolute',
@@ -39,48 +127,40 @@ function BeforeAfterCard({ item }) {
           >
             Before
           </span>
-        </div>
 
-        {/* Divider line + handle */}
-        <div
-          style={{
-            position: 'absolute',
-            left: '50%',
-            top: 0,
-            bottom: 0,
-            transform: 'translateX(-50%)',
-            width: 2,
-            background: '#fff',
-            zIndex: 2,
-          }}
-        >
           <div
             style={{
               position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: 36,
-              height: 36,
-              borderRadius: '50%',
+              left: `${position}%`,
+              top: 0,
+              bottom: 0,
+              transform: 'translateX(-50%)',
+              width: 2,
               background: '#fff',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.2)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 16,
-              color: 'var(--accent)',
-              fontWeight: 700,
-              userSelect: 'none',
+              zIndex: 2,
             }}
           >
-            ↔
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 36,
+                height: 36,
+                borderRadius: '50%',
+                background: '#fff',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.2)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--accent)',
+                userSelect: 'none',
+              }}
+            >
+              <Icon name="compare" size={18} color="var(--accent)" stroke={2} />
+            </div>
           </div>
-        </div>
-
-        {/* After */}
-        <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
-          <Photo kind="portrait" variant={item.after} height={280} radius={0} style={{ width: '100%' }} />
           <span
             style={{
               position: 'absolute',
@@ -99,9 +179,8 @@ function BeforeAfterCard({ item }) {
             After
           </span>
         </div>
-      </div>
+      )}
 
-      {/* Label */}
       <div style={{ padding: '16px 20px' }}>
         <p
           style={{
@@ -167,6 +246,11 @@ export default function Gallery() {
             <BeforeAfterCard key={t.label} item={t} />
           ))}
         </div>
+
+        <p style={{ marginTop: 24, textAlign: 'center', color: 'var(--muted)', fontSize: 11, lineHeight: 1.6 }}>
+          Photo credits: <a href={salonImages.precisionCutBefore.source} target="_blank" rel="noreferrer" style={{ color: 'var(--muted)', textDecoration: 'underline' }}>Jessica Fiess-Hill</a> and{' '}
+          <a href={salonImages.keratinBefore.source} target="_blank" rel="noreferrer" style={{ color: 'var(--muted)', textDecoration: 'underline' }}>Hmwith</a> via Wikimedia Commons.
+        </p>
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import Photo from './ui/Photo.jsx';
 import Icon from './ui/Icon.jsx';
+import { salonImages } from '../data/images.js';
 
 const trust = [
   { label: '4.96 ★', sub: '2,140 reviews' },
@@ -150,15 +151,25 @@ export default function Hero() {
         {/* Right: photo stack + floating card */}
         <div style={{ position: 'relative', minHeight: 420 }}>
           {/* Main photo */}
-          <Photo kind="portrait" variant={0} height="clamp(380px, 42vw, 460px)" radius="var(--r-lg)" style={{ width: '100%' }} />
+          <Photo
+            image={salonImages.heroHaircut}
+            kind="portrait"
+            height="clamp(380px, 42vw, 460px)"
+            radius="var(--r-lg)"
+            objectPosition="center 42%"
+            loading="eager"
+            style={{ width: '100%' }}
+          />
 
           {/* Accent photo (offset) */}
           <Photo
+            image={salonImages.salonInterior}
             kind="editorial"
-            variant={4}
+            alt=""
             width={160}
             height={200}
             radius="var(--r-md)"
+            objectPosition="center"
             style={{
               position: 'absolute',
               bottom: -20,
